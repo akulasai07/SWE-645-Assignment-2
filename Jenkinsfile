@@ -7,6 +7,8 @@ pipeline {
     environment {
         registry = "adi0222/surveyformimage"
         registryCredential = 'Georgemason@4'
+
+        KUBECONFIG_CREDENTIALS_ID = '5574b1da-9b69-451a-b775-bdf66c5ec6e2'
     }
     agent any
 
@@ -16,8 +18,6 @@ pipeline {
             steps {
                 script {
                     checkout scm
-                    sh 'rm -rf *.war'
-                    sh 'jar -cvf studentSurveyForm.war -C WebContent/ .'
                     sh 'echo ${BUILD_TIMESTAMP}'
                     sh "docker login -u adi0222 -p ${BUILD_TIMESTAMP}"
                     tag = generateTag()
