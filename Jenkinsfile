@@ -19,7 +19,6 @@ pipeline {
                 script {
                     checkout scm
                     sh 'echo ${BUILD_TIMESTAMP}'
-                    sh "docker login -u adi0222 -p ${BUILD_TIMESTAMP}"
                     tag = generateTag()
                     docker.withRegistry('',registryCredential){
                       def customImage = docker.build("adi0222/surveyformimage:"+tag)
