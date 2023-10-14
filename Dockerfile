@@ -1,5 +1,5 @@
 # Use the official Tomcat image as the base image
-FROM tomcat:latest
+FROM --platform=linux/amd64 tomcat:latest
 
 # Remove the default Tomcat webapps directory
 RUN rm -rf /usr/local/tomcat/webapps/*
