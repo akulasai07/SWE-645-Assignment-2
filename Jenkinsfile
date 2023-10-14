@@ -15,7 +15,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh 'mvn clean package'
+                    sh 'var/lib/jenkins/mvn clean package'
                     sh 'echo ${BUILD_TIMESTAMP}'
                     tag = generateTag()
                     docker.withRegistry('',registryCredential){
