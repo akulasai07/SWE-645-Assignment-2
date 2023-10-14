@@ -7,8 +7,6 @@ pipeline {
     environment {
         registry = "adi0222/surveyformimage"
         registryCredential = 'Georgemason@4'
-
-        KUBECONFIG_CREDENTIALS_ID = '5574b1da-9b69-451a-b775-bdf66c5ec6e2'
     }
     agent any
 
@@ -17,6 +15,8 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+                    
+                    sh 'echo ${BUILD_TIMESTAMP}'
                     tag = generateTag()
                     docker.withRegistry('',registryCredential){
                       def customImage = docker.build("adi0222/surveyformimage:"+tag)
