@@ -3,8 +3,6 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "adi0222/surveyformimage:${env.BUILD_ID}"
-        DOCKER_USERNAME = "adi0222"
-        DOCKER_PASSWORD = "Georgemason@4"
         KUBECONFIG_CREDENTIALS_ID = '5574b1da-9b69-451a-b775-bdf66c5ec6e2'
     }
 
