@@ -29,7 +29,7 @@ pipeline {
         stage('Deploying to Rancher as Load Balancer') {
             steps {
                 withCredentials([file(credentialsId: "$KUBECONFIG_CREDENTIALS_ID", variable: 'KUBECONFIG')]) {
-                    sh 'kubectl set image deployment/surveyformlb container-0=adi0222/surveyformimage:'+tag
+                    sh 'kubectl set image deployment/surveyformlb container-0=$DOCKER_IMAGE'
                 }
             }
         }
@@ -37,7 +37,7 @@ pipeline {
         stage('Deploying to Rancher as Node Port') {
             steps {
                 withCredentials([file(credentialsId: "$KUBECONFIG_CREDENTIALS_ID", variable: 'KUBECONFIG')]) {
-                    sh 'kubectl set image deployment/surveyformnp container-0=adi0222/surveyformimage:'+tag
+                    sh 'kubectl set image deployment/surveyformnp container-0=$DOCKER_IMAGE'
                 }
             }
         }
