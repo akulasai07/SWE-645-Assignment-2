@@ -17,97 +17,64 @@ https://gmuedu-my.sharepoint.com/:v:/g/personal/psharm24_gmu_edu/EUOEQ5rCf8FPuqO
 
 #### Demo Video
 https://gmuedu-my.sharepoint.com/:v:/g/personal/mraval_gmu_edu/EYuFnHbuHh1Bh1TjcyLDx0gBFrhUCOaczepkDZSus7MsFQ?e=f06jHq4
-## Initial Setup
 
-### 1. GitHub Repository
 
-- Create a GitHub repository for your project. [Example Repo](https://github.com/pranay-sharma793/CS-645-Assignment)
+## Installation and Setup
 
-### 2. Docker Hub
+- **GitHub Repository :** Commit code for HW1 on a github repository. [GitHub repository](https://github.com/adi-limbekar/SWE-645-Assignment-2).
 
-- Create a repository on Docker Hub where you will push your `.war` file. [Docker Hub Repo](https://hub.docker.com/repository/docker/pranaysharma793/surveyformcd/general)
+- **Docker Hub Repository:** A Docker Hub repository for the .war file is available at [Docker Hub Repository](https://hub.docker.com/repository/docker/adi0222/surveyformimage/general).
 
-## Ubuntu Server / Docker
+## Ubuntu Server and Docker
 
-### 1. Start EC2 Instance
+1. Start an EC2 instance using an Ubuntu AMI. You can access the Rancher Dashboard [here](https://ec2-18-208-33-134.compute-1.amazonaws.com/dashboard/home).
 
-- Start an EC2 instance with the Ubuntu AMI. [Rancher Dashboard](https://ec2-34-198-210-248.compute-1.amazonaws.com/dashboard/home)
+2. Install Docker on the Ubuntu instance.
 
-### 2. Install Docker
+3. Run Rancher on the EC2 instance. You can verify that Rancher is running by executing `sudo docker ps`.
 
-- Install Docker on the EC2 instance.
+4. Access the Rancher dashboard using the public DNS address of the EC2 instance.
 
-### 3. Run Rancher
+5. Create a custom cluster within Rancher for your application.
 
-- Run Rancher on the EC2 instance. Verify its status with `sudo docker ps`.
+## Kubernetes Cluster Setup
 
-### 4. Access Rancher Dashboard
+1. Create another EC2 instance, ensuring it has at least 25GB of storage, and use an Ubuntu AMI. This instance will serve as your Kubernetes server. You can access it at [K8s server](https://ec2-35-170-98-81.compute-1.amazonaws.com/).
 
-- Access the Rancher dashboard at the public DNS address of the EC2 instance.
+2. After installing Docker on the new EC2 instance, register the nodes for your Kubernetes cluster using the provided command. This instance will host the etcd, control panel, and worker nodes.
 
-### 5. Create a Custom Cluster
+3. Once the Kubernetes cluster is active, create two deployments (one with NodePort and one with LoadBalancer).
 
-- Create a custom cluster in Rancher.
+4. Download the KubeConfig file for your cluster and save it.
 
-## Kubernetes Registration, Cluster Creation, and Deployment
+5. Provide the Docker repository address for the deployment to pull the image and deploy the application.
 
-### 1. Setup Kubernetes Server
+6. Verify that the pods are created and have a status of "running."
 
-- Create another EC2 instance with sufficient storage (minimum 25GB) and an Ubuntu AMI. [Example K8s Server](ec2-54-147-49-153.compute-1.amazonaws.com)
+7. Check the logs for the pods using the command `kubectl logs <pod_name>` to ensure the .war file was successfully loaded.
 
-### 2. Install Docker
+8. You should be able to access the "Student Survey" form from the deployment services address.
 
-- Install Docker on the new EC2 instance.
+## Automated Build and Release with Jenkins
 
-### 3. Register Cluster Nodes
+1. Create another EC2 instance to host Jenkins. You can access Jenkins at [Jenkins](http://3.85.248.232:8080/).
 
-- Register the nodes for your cluster on the new instance using the provided command.
+2. Install Java on this instance and then install Jenkins from [https://pkg.jenkins.io/debian/](https://pkg.jenkins.io/debian/).
 
-### 4. Create Deployments
+3. Create a directory called `/.kube` and paste the contents of the file 'KubeConfig' into a file named 'config.'
 
-- Create two deployments, one as NodePort and one as LoadBalancer.
+4. Check the current context using the command `kubectl config current-context`. It should return the cluster name created in Rancher.
 
-### 5. Download KubeConfig
+5. Create a Jenkins pipeline and install the necessary plugins, including [CloudBees Docker](https://docs.cloudbees.com/docs/admin-resources/latest/plugins/docker-workflow) and [Rancher](https://plugins.jenkins.io/rancher).
 
-- Download the KubeConfig file for your cluster and save it.
+6. Configure the pipeline with the source as your GitHub repository. Enable polling of the SCM every minute and provide access to the JenkinsFile stored in your GitHub repository.
 
-### 6. Deploy the Application
+7. Create and push a 'JenkinsFile' that consists of stages, including:
+   a. Build.
+   b. Push to Docker Hub.
+   c. Deploy on Rancher single node.
+   d. Deploy on Rancher.
 
-- Provide the Docker Hub repository address for this deployment to pull the image and deploy.
-- Verify that the pods are created and their status is 'running'.
-- Check the logs for the pod using `kubectl logs <pod_name>` to ensure the `.war` file was successfully loaded.
-- Access the 'Student Survey' form from the deployed services address.
+8. Once the pipeline is successfully set up, any changes to the code pushed to GitHub will trigger a new build. After completing all the pipeline stages, the new build will be pushed to Docker Hub, and the image will be updated in Rancher deployments, now hosting the newly created build.
 
-## Automating Build and Release using Jenkins
-
-### 1. Setup Jenkins
-
-- Create another EC2 instance to host Jenkins. [Example Jenkins](http://ec2-54-211-13-48.compute-1.amazonaws.com:8080)
-
-### 2. Install Jenkins
-
-- Install Java on this instance and then install Jenkins.
-
-### 3. Configure KubeConfig
-
-- Create a directory named `/.kube` and copy the contents of the 'KubeConfig' file into a new file named 'config'.
-- Verify the current context using `kubectl config current-context` to ensure it returns the cluster name created in Rancher.
-
-### 4. Set Up Jenkins Pipeline
-
-- Create a Jenkins pipeline and install necessary plugins, such as CloudBees Docker and Rancher.
-
-### 5. Configure the Pipeline
-
-- Configure the pipeline with your GitHub repository as the source.
-- Set up polling of the SCM every minute and provide access to the JenkinsFile stored in the GitHub repository.
-
-### 6. JenkinsFile
-
-- Create and push a 'JenkinsFile' containing stages for building, pushing to Docker Hub, and deploying on Rancher (both single-node and multi-node).
-
-### 7. Automation
-
-- Once the pipeline is set up, any code changes pushed to GitHub will trigger a new build.
-- Verify that the new build is pushed to Docker Hub and the image is updated in Rancher deployments.
 
