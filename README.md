@@ -4,12 +4,12 @@
 
 This README provides step-by-step instructions for setting up a development and deployment environment for your project. The environment involves technologies like Docker, Kubernetes, Jenkins, and GitHub. 
 
-## Table of Contents
+# Table of Contents
 
-- [Initial Setup](#Installation and Setup)
-- [Ubuntu Server / Docker](#ubuntu-server--docker)
-- [Kubernetes Registration, Cluster Creation, and Deployment](#kubernetes-registration-cluster-creation-and-deployment)
-- [Automating Build and Release using Jenkins](#automating-build-and-release-using-jenkins)
+- [Installation and Setup](#installation-and-setup)
+- [Ubuntu Server and Docker](#ubuntu-server-and-docker)
+- [Kubernetes Cluster Setup](#kubernetes-cluster-setup)
+- [Automated Build and Release with Jenkins](#automated-build-and-release-with-jenkins)
 
 ### Demo Videos
 #### Installation video
