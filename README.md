@@ -13,10 +13,10 @@ This README provides step-by-step instructions for setting up a development and 
 
 ### Demo Videos
 #### Installation video
-https://gmuedu-my.sharepoint.com/:v:/g/personal/psharm24_gmu_edu/EUOEQ5rCf8FPuqOZi__b_fsBcXzFEWY17IiIplys5i6xjg?e=eJkWib
+
 
 #### Demo Video
-https://gmuedu-my.sharepoint.com/:v:/g/personal/mraval_gmu_edu/EYuFnHbuHh1Bh1TjcyLDx0gBFrhUCOaczepkDZSus7MsFQ?e=f06jHq4
+
 
 
 ## Installation and Setup
@@ -61,20 +61,22 @@ https://gmuedu-my.sharepoint.com/:v:/g/personal/mraval_gmu_edu/EYuFnHbuHh1Bh1Tjc
 
 2. Install Java on this instance and then install Jenkins from [https://pkg.jenkins.io/debian/](https://pkg.jenkins.io/debian/).
 
-3. Create a directory called `/.kube` and paste the contents of the file 'KubeConfig' into a file named 'config.'
+3. Login to Jenkins UI then: Manage Jenkins -> Credentials(Under Security) -> Click on (global) under Domains -> Add Credentials
 
-4. Check the current context using the command `kubectl config current-context`. It should return the cluster name created in Rancher.
-
-5. Create a Jenkins pipeline and install the necessary plugins, including [CloudBees Docker](https://docs.cloudbees.com/docs/admin-resources/latest/plugins/docker-workflow) and [Rancher](https://plugins.jenkins.io/rancher).
-
-6. Configure the pipeline with the source as your GitHub repository. Enable polling of the SCM every minute and provide access to the JenkinsFile stored in your GitHub repository.
-
-7. Create and push a 'JenkinsFile' that consists of stages, including:
+4. To add kubeconfig.yaml, Kind = Secret file, File = Attach your .yaml file downloaded from Rancher, ID = You can give any name or it will be auto generated.
+   
+5. We also added credentials for DockerHub follow same steps as point 3, which we used in our Jenkins file.
+   
+6. Create a Jenkins pipeline and install the necessary plugins, including [CloudBees Docker](https://docs.cloudbees.com/docs/admin-resources/latest/plugins/docker-workflow) and [Rancher](https://plugins.jenkins.io/rancher).
+   
+7. Configure the pipeline with the source as your GitHub repository. Enable polling of the SCM every minute and provide access to the JenkinsFile stored in your GitHub repository.
+    
+8. Create and push a 'JenkinsFile' that consists of stages, including:
    a. Build.
    b. Push to Docker Hub.
    c. Deploy on Rancher single node.
    d. Deploy on Rancher.
 
-8. Once the pipeline is successfully set up, any changes to the code pushed to GitHub will trigger a new build. After completing all the pipeline stages, the new build will be pushed to Docker Hub, and the image will be updated in Rancher deployments, now hosting the newly created build.
+9. Once the pipeline is successfully set up, any changes to the code pushed to GitHub will trigger a new build. After completing all the pipeline stages, the new build will be pushed to Docker Hub, and the image will be updated in Rancher deployments, now hosting the newly created build.
 
 
