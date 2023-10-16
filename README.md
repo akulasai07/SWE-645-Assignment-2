@@ -6,7 +6,7 @@ This README provides step-by-step instructions for setting up a development and 
 
 ## Table of Contents
 
-- [Initial Setup](#initial-setup)
+- [Initial Setup](#Installation and Setup)
 - [Ubuntu Server / Docker](#ubuntu-server--docker)
 - [Kubernetes Registration, Cluster Creation, and Deployment](#kubernetes-registration-cluster-creation-and-deployment)
 - [Automating Build and Release using Jenkins](#automating-build-and-release-using-jenkins)
